@@ -16,14 +16,13 @@ export type Node = {
 const List: FC<{
   state: Object
 }> = ({ state }) => {
-  const { width, transparency } = {
-    width: 0,
-    transparency: 0,
-  }
   const store = useFullStore()
   const stateArray = useMemo(() => {
     const arr = []
-    for (const [key, value] of Object.entries({ ...state, devTools: store })) {
+    for (const [key, value] of Object.entries({
+      ...state,
+      devTools: store,
+    })) {
       if (typeof value === `function`) {
         continue
       }
@@ -41,7 +40,7 @@ const List: FC<{
   }, [state, store, store.userInput]) as Node[]
 
   return (
-    <Container transparency={transparency} width={width}>
+    <Container transparency={store.transparency} width={store.width}>
       {stateArray.map((node) => {
         return (
           <Fragment key={`list-` + node.key}>
@@ -68,6 +67,7 @@ const Container = styled.div<{
       `${theme.headerBackground}${numberToHex(
         transparency > 0.3 ? transparency + 0.3 : 0.6
       )}`};
+    backdrop-filter: blur(30px);
   }
   display: flex;
   flex-direction: column;
