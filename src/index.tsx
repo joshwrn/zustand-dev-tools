@@ -12,7 +12,7 @@ export const ZustandDevTools: FC<{
   showDevTools?: boolean
   setShowDevTools?: (showDevTools: boolean) => void
 }> = ({ state, showDevTools, setShowDevTools }) => {
-  const s = useZ(["devToolsOpen", "setDevToolsOpen"])
+  const s = useZ(["devToolsOpen"])
   return (
     <Portal>
       {showDevTools === undefined && <DevToolsIcon />}
