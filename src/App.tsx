@@ -1,29 +1,29 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from "styled-components"
 
-import DevtoolsHeader from './components/Header';
-import List from './components/List';
-import { globalStyle } from './styles/globalStyle';
-import { devThemes } from './styles/themes';
-import { numberToHex } from './utils/color';
-import { DraggableContainer } from './components/DraggableContainer';
-import { useZ } from './state/store';
-import SettingsPage from './components/Settings';
+import DevtoolsHeader from "./components/Header"
+import List from "./components/List"
+import { globalStyle } from "./styles/globalStyle"
+import { devThemes } from "./styles/themes"
+import { numberToHex } from "./utils/color"
+import { DraggableContainer } from "./components/DraggableContainer"
+import { useZ } from "./state/store"
+import SettingsPage from "./components/Settings"
 
 export const Tools: FC<{
-  state: any;
-  setShowDevTools?: (show: boolean) => void;
+  state: any
+  setShowDevTools?: (show: boolean) => void
 }> = ({ state, setShowDevTools }) => {
   const s = useZ([
-    'transparency',
-    'position',
-    'settingsOpen',
-    'width',
-    'theme',
-    'fonts',
-    'fontSize',
-  ]);
+    "transparency",
+    "position",
+    "settingsOpen",
+    "width",
+    "theme",
+    "fonts",
+    "fontSize",
+  ])
 
   return (
     <ThemeProvider theme={devThemes[s.theme] ?? devThemes[`Light`]}>
@@ -38,8 +38,8 @@ export const Tools: FC<{
         </Layer>
       </DraggableContainer>
     </ThemeProvider>
-  );
-};
+  )
+}
 
 const Backdrop = styled.div<{ transparency: number }>`
   position: absolute;
@@ -52,17 +52,17 @@ const Backdrop = styled.div<{ transparency: number }>`
   z-index: 0;
   height: 100%;
   width: 100%;
-`;
+`
 const Layer = styled.div<{ fonts: string; fontSize: number }>`
   ${globalStyle}
   * {
     font-family: ${({ fonts }) => (fonts.length > 0 ? fonts + `,` : ``)}
-        'Jetbrains Mono',
-      'Dank Mono', 'Courier New', Courier, monospace !important;
+        "Jetbrains Mono",
+      "Dank Mono", "Courier New", Courier, monospace !important;
     font-size: ${({ fontSize }) => fontSize}px;
     i {
       font-family: Icon !important;
-      font-variation-settings: 'wght' 250;
+      font-variation-settings: "wght" 250;
     }
   }
   .devtools-badge {
@@ -77,7 +77,7 @@ const Layer = styled.div<{ fonts: string; fontSize: number }>`
   align-items: center;
   z-index: 20001;
   width: 100%;
-`;
+`
 const Inner = styled.div<{ width: number }>`
   overflow-y: overlay;
   overflow-x: overlay;
@@ -89,4 +89,4 @@ const Inner = styled.div<{ width: number }>`
   padding-left: 5px;
   top: 0;
   user-select: none;
-`;
+`

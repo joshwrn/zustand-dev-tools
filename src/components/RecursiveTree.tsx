@@ -1,9 +1,9 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
-import { Mark, Key, Box } from '../styles/Styles';
-import Badge from './Badge';
-import Primitive from './Primitive';
-import { useFullStore } from '../state/store';
+import { Mark, Key, Box } from "../styles/Styles"
+import Badge from "./Badge"
+import Primitive from "./Primitive"
+import { useFullStore } from "../state/store"
 
 const RecursiveTree: FC<{ contents: unknown; branchName: string }> = ({
   contents,
@@ -12,12 +12,12 @@ const RecursiveTree: FC<{ contents: unknown; branchName: string }> = ({
   const [isOpen, toggleItemOpen] = useFullStore((state) => [
     state.openItems,
     state.setOpenItems,
-  ]);
+  ])
 
   const createTree = (branch: unknown, dir: string) => {
     // handle array
     if (branch instanceof Set || branch instanceof Map) {
-      branch = Array.from(branch);
+      branch = Array.from(branch)
     }
 
     if (branch instanceof Array) {
@@ -28,54 +28,52 @@ const RecursiveTree: FC<{ contents: unknown; branchName: string }> = ({
             return (
               <Box border="gray" key={dir + index}>
                 {createTree(item, `${dir}/${index}`)}
-                {index < (branch as Array<unknown>).length - 1 && (
-                  <Mark>,</Mark>
-                )}
+                {index < (branch as Array<unknown>).length - 1 && <Mark>,</Mark>}
               </Box>
-            );
+            )
           })}
           <Mark>]</Mark>
         </>
-      );
+      )
     }
 
     // handle other
     if (branch === null || branch === undefined || branch instanceof Date) {
-      return <Primitive data={branch} />;
+      return <Primitive data={branch} />
     }
 
     // handle object
     if (typeof branch === `object`) {
       const result = Object.keys(branch)
         .sort((a, b) => {
-          return a > b ? 1 : -1;
+          return a > b ? 1 : -1
         })
         .map((key): { key: number | string | symbol; branch: unknown } => ({
           key: key,
           branch: (branch as object)[key as keyof typeof branch],
-        }));
+        }))
 
       // handle object with nested objects
       return (
         <>
           <Mark style={{ display: `inline-block` }}>{`{`}</Mark>
           {result.map((item, index) => {
-            const isMap = item.branch instanceof Map;
-            const isSet = item.branch instanceof Set;
-            const isFunction = typeof item.branch === `function`;
+            const isMap = item.branch instanceof Map
+            const isSet = item.branch instanceof Set
+            const isFunction = typeof item.branch === `function`
             if (isFunction) {
-              return null;
+              return null
             }
             if (isMap || isSet) {
               item.branch = Array.from(
                 item.branch as Map<unknown, unknown> | Set<unknown>
-              );
+              )
             }
 
-            const currentDir = `${dir}/${String(item.key)}`;
+            const currentDir = `${dir}/${String(item.key)}`
 
-            const itemIsObject = typeof item.branch === `object`;
-            const itemIsArray = Array.isArray(item.branch);
+            const itemIsObject = typeof item.branch === `object`
+            const itemIsArray = Array.isArray(item.branch)
 
             // handle item in object with nested objects
             if ((itemIsObject || itemIsArray) && item.branch) {
@@ -96,7 +94,7 @@ const RecursiveTree: FC<{ contents: unknown; branchName: string }> = ({
                     {isOpen[currentDir] && createTree(item.branch, currentDir)}
                   </span>
                 </Box>
-              );
+              )
             }
 
             // handle item in object with no nested objects
@@ -110,22 +108,22 @@ const RecursiveTree: FC<{ contents: unknown; branchName: string }> = ({
                   <Mark>{index !== result.length - 1 && `,`}</Mark>
                 </p>
               </Box>
-            );
+            )
           })}
           <Mark>{`}`}</Mark>
         </>
-      );
+      )
     }
 
     // non-object, non-array. aka is a "primitive"
-    return <Primitive data={branch} />;
-  };
+    return <Primitive data={branch} />
+  }
 
   return (
     <span style={{ paddingLeft: `12px` }}>
       {createTree(contents, branchName)}
     </span>
-  );
-};
+  )
+}
 
-export default RecursiveTree;
+export default RecursiveTree

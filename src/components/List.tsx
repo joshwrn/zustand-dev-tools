@@ -50,7 +50,7 @@ const List: FC<{
         );
       })}
       {stateArray.length === 0 && (
-        <Text style={{ padding: `10px` }}>No results found</Text>
+        <Text style={{ padding: `10px` }}>No matches found</Text>
       )}
     </Container>
   );

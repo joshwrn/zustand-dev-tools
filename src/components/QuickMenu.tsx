@@ -1,11 +1,11 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
-import { VscCloseAll } from 'react-icons/vsc';
+import { VscCloseAll } from "react-icons/vsc"
 
-import styled from 'styled-components';
+import styled from "styled-components"
 
-import { numberToHex } from '../utils/color';
-import { useZ } from '../state/store';
+import { numberToHex } from "../utils/color"
+import { useZ } from "../state/store"
 
 const Container = styled.div`
   display: flex;
@@ -21,8 +21,8 @@ const Container = styled.div`
   gap: 8px;
   background-color: ${({ theme }) => theme.headerBackground};
   ::before {
-    content: '';
-    content: '';
+    content: "";
+    content: "";
     position: absolute;
     bottom: 100%;
     right: 4px;
@@ -33,8 +33,8 @@ const Container = styled.div`
       transparent;
   }
   ::after {
-    content: '';
-    content: '';
+    content: "";
+    content: "";
     position: absolute;
     bottom: 100%;
     right: 6px;
@@ -44,7 +44,7 @@ const Container = styled.div`
     border-color: transparent transparent
       ${({ theme }) => theme.headerBackground} transparent;
   }
-`;
+`
 
 const Item = styled.div`
   display: flex;
@@ -66,26 +66,26 @@ const Item = styled.div`
   :hover {
     background-color: ${({ theme }) => theme.iconBackground + numberToHex(0.3)};
   }
-`;
+`
 
 const QuickMenu: FC = () => {
-  const state = useZ(['setOpenItems', 'setState']);
+  const state = useZ(["setOpenItems", "setState"])
 
   return (
     <Container>
       <Item
         onClick={() => {
           state.setState((draft) => {
-            draft.openItems = {};
-            draft.isQuickMenuOpen = false;
-          });
+            draft.openItems = {}
+            draft.isQuickMenuOpen = false
+          })
         }}
       >
         <VscCloseAll />
-        Close All Atoms
+        Close All
       </Item>
     </Container>
-  );
-};
+  )
+}
 
-export default QuickMenu;
+export default QuickMenu

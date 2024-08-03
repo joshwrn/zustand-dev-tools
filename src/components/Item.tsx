@@ -1,40 +1,40 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
-import { AnimatePresence, motion } from 'framer-motion';
-import styled from 'styled-components';
+import { AnimatePresence, motion } from "framer-motion"
+import styled from "styled-components"
 
-import useSticky from '../hooks/useSticky';
-import { numberToHex } from '../utils/color';
-import Badge from './Badge';
-import RecursiveTree from './RecursiveTree';
-import { useZ } from '../state/store';
-import { Node } from './List';
+import useSticky from "../hooks/useSticky"
+import { numberToHex } from "../utils/color"
+import Badge from "./Badge"
+import RecursiveTree from "./RecursiveTree"
+import { useZ } from "../state/store"
+import { Node } from "./List"
 
 export const StateItem: FC<{
-  node: Node;
-  input: string;
-  name: string;
+  node: Node
+  input: string
+  name: string
 }> = ({ node, input, name }) => {
-  let contents = node.value;
-  const type = Object.prototype.toString.call(contents.value).slice(8, -1);
-  const [ref, isStuck] = useSticky();
-  const state = useZ(['setOpenItems', 'openItems']);
+  let contents = node.value
+  const type = Object.prototype.toString.call(contents.value).slice(8, -1)
+  const [ref, isStuck] = useSticky()
+  const state = useZ(["setOpenItems", "openItems"])
 
-  const isDate = contents instanceof Date;
-  const isObject = typeof contents === `object` && contents && !isDate;
-  const isArray = Array.isArray(contents);
-  const isSet = contents instanceof Set;
-  const isMap = contents instanceof Map;
+  const isDate = contents instanceof Date
+  const isObject = typeof contents === `object` && contents && !isDate
+  const isArray = Array.isArray(contents)
+  const isSet = contents instanceof Set
+  const isMap = contents instanceof Map
 
   if (isMap || isSet) {
     contents = {
       value: Array.from(contents.value as Map<unknown, unknown> | Set<unknown>),
       key: node.key,
-    };
+    }
   }
 
   const shouldStick =
-    isStuck && state.openItems[node.key] && (isObject || isArray);
+    isStuck && state.openItems[node.key] && (isObject || isArray)
 
   return (
     <div>
@@ -70,27 +70,25 @@ export const StateItem: FC<{
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 export const AtomName: FC<{
-  name: string;
-  input: string;
+  name: string
+  input: string
 }> = ({ name, input }) => {
-  if (!name) return null;
+  if (!name) return null
   if (!input) {
     return (
       <span>
         <ItemLetter highlight={false}>{name}</ItemLetter>
       </span>
-    );
+    )
   }
 
-  const words = input.split(` `);
-  const wordToHighlight = words.find((word) =>
-    name.toLowerCase().includes(word)
-  );
-  const wordStart = name.toLowerCase().indexOf(wordToHighlight || ``);
+  const words = input.split(` `)
+  const wordToHighlight = words.find((word) => name.toLowerCase().includes(word))
+  const wordStart = name.toLowerCase().indexOf(wordToHighlight || ``)
 
   return (
     <span>
@@ -105,18 +103,18 @@ export const AtomName: FC<{
           >
             {key}
           </ItemLetter>
-        );
+        )
       })}
     </span>
-  );
-};
+  )
+}
 
 const Dummy = styled.div`
   width: 100px;
   height: 1px;
   position: sticky;
   top: -1px;
-`;
+`
 const ItemHeader = styled.span<{ shouldStick: boolean }>`
   display: inline-block;
   position: ${({ shouldStick }) => (shouldStick ? `sticky` : `relative`)};
@@ -124,17 +122,17 @@ const ItemHeader = styled.span<{ shouldStick: boolean }>`
   z-index: 1;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
-`;
+`
 const InnerHeader = styled.div<{ isStuck: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   transform: ${({ isStuck }) => (isStuck ? `translateY(5px)` : `none`)};
-`;
+`
 const ItemLetter = styled.span<{ highlight: boolean }>`
   color: ${({ highlight, theme }) =>
     highlight ? theme.boolean : theme.primaryText};
-`;
+`
 const Sticky = styled(motion.div)`
   position: absolute;
   display: flex;
@@ -153,4 +151,4 @@ const Sticky = styled(motion.div)`
     `1px solid ${theme.faintOutline + numberToHex(0.7)}`} !important;
   border-top: ${({ theme }) =>
     `1px solid ${theme.faintOutline + numberToHex(0.7)}`} !important;
-`;
+`

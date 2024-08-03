@@ -1,12 +1,14 @@
-import type { FC } from 'react';
+import type { FC } from "react"
 
-import styled from 'styled-components';
+import styled from "styled-components"
+import { IoCloseSharp as CloseIcon } from "react-icons/io5"
 
-import { devThemes } from '../styles/themes';
-import { useZ } from '../state/store';
+import { devThemes } from "../styles/themes"
+import { useZ } from "../state/store"
+import { Icon } from "./Header"
 
 const Container = styled.div<{
-  fontSize: number;
+  fontSize: number
 }>`
   * {
     font-size: 14px !important;
@@ -17,26 +19,20 @@ const Container = styled.div<{
   left: 0;
   backdrop-filter: blur(30px);
   z-index: 20001;
-  border-top: 2px solid ${({ theme }) => theme.faintOutline};
+  border-top: 1px solid ${({ theme }) => theme.faintOutline} !important;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
+  padding: 0 20px;
   align-items: flex-start;
   overflow: auto;
   gap: 20px;
   .devSettingsTop {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 100%;
     border-bottom: 1px solid ${({ theme }) => theme.faintOutline};
-    padding-bottom: 10px;
-    div {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      gap: 10px;
-    }
+    padding: 15px 0;
     p {
       font-weight: 500;
       color: ${({ theme }) => theme.faintText};
@@ -48,17 +44,23 @@ const Container = styled.div<{
     path {
       fill: ${({ theme }) => theme.faintText};
     }
+    button {
+      svg {
+        width: 19px !important;
+        height: 19px !important;
+      }
+    }
   }
-`;
+`
 const Option = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px dashed ${({ theme }) => theme.faintOutline};
-  padding: 5px 0;
+  height: 40px;
   label {
     font-weight: 700;
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.faintText};
   }
   select {
     color: ${({ theme }) => theme.faintText};
@@ -76,7 +78,7 @@ const Option = styled.div`
     min-width: 135px;
     background: none;
   }
-  input[type='range'] {
+  input[type="range"] {
     cursor: pointer;
     -webkit-appearance: none;
     border-radius: 20px;
@@ -85,11 +87,12 @@ const Option = styled.div`
     opacity: 0.7;
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
+    height: 15px;
     ::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 17px;
-      height: 17px;
+      width: 15px;
+      height: 15px;
       border-radius: 50%;
       background: ${({ theme }) => theme.primaryText};
       cursor: pointer;
@@ -102,8 +105,8 @@ const Option = styled.div`
       }
     }
   }
-  input[type='text'],
-  input[type='number'] {
+  input[type="text"],
+  input[type="number"] {
     padding-left: 5px;
     color: ${({ theme }) => theme.faintText};
     font-weight: 600;
@@ -112,37 +115,38 @@ const Option = styled.div`
       color: ${({ theme }) => theme.faintText};
     }
   }
-`;
+`
 
 export interface DevToolSettings {
-  position: string;
-  transparency: number;
-  theme: string;
-  width: number;
-  height: number;
-  vibrancy: number;
-  fonts: string;
-  fontSize: number;
+  position: string
+  transparency: number
+  theme: string
+  width: number
+  height: number
+  vibrancy: number
+  fonts: string
+  fontSize: number
 }
 
 const SettingsPage: FC = () => {
   const { theme, transparency, fonts, fontSize, setSettingsOpen, setState } =
     useZ([
-      'position',
-      'theme',
-      'transparency',
-      'fonts',
-      'fontSize',
-      'setSettingsOpen',
-      'setState',
-    ]);
+      "position",
+      "theme",
+      "transparency",
+      "fonts",
+      "fontSize",
+      "setSettingsOpen",
+      "setState",
+    ])
 
   return (
     <Container fontSize={fontSize}>
       <div className="devSettingsTop">
-        <div onClick={() => setSettingsOpen(false)}>
-          <p>Close Settings</p>
-        </div>
+        <p>Settings</p>
+        <Icon title="Close" onClick={() => setSettingsOpen(false)}>
+          <CloseIcon style={{ transform: `translate(.5px, 0)` }} size={19} />
+        </Icon>
       </div>
       <Option>
         <label>Theme</label>
@@ -150,7 +154,7 @@ const SettingsPage: FC = () => {
           value={theme}
           onChange={(e) =>
             setState((draft) => {
-              draft.theme = e.target.value;
+              draft.theme = e.target.value
             })
           }
         >
@@ -169,7 +173,7 @@ const SettingsPage: FC = () => {
           type="text"
           onChange={(e) =>
             setState((draft) => {
-              draft.fonts = e.target.value.replace(/[^a-zA-Z0-9, ]/g, ``);
+              draft.fonts = e.target.value.replace(/[^a-zA-Z0-9, ]/g, ``)
             })
           }
         />
@@ -183,7 +187,7 @@ const SettingsPage: FC = () => {
           max={20}
           onChange={(e) =>
             setState((draft) => {
-              draft.fontSize = Number(e.target.value);
+              draft.fontSize = Number(e.target.value)
             })
           }
         />
@@ -198,13 +202,13 @@ const SettingsPage: FC = () => {
           value={transparency}
           onChange={(e) =>
             setState((draft) => {
-              draft.transparency = Number(e.target.value);
+              draft.transparency = Number(e.target.value)
             })
           }
         />
       </Option>
     </Container>
-  );
-};
+  )
+}
 
-export default SettingsPage;
+export default SettingsPage

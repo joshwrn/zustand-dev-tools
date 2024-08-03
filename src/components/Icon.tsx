@@ -1,13 +1,11 @@
-import type { FC } from 'react';
+import type { FC } from "react"
+import styled from "styled-components"
+import { GiPolarBear } from "react-icons/gi"
 
-import styled from 'styled-components';
-
-import { GiPolarBear } from 'react-icons/gi';
-
-import { useZ } from '../state/store';
+import { useZ } from "../state/store"
 
 const RecoilIcon = styled.button<{
-  toolsAreOpen: boolean;
+  toolsAreOpen: boolean
 }>`
   border: none;
   height: 40px;
@@ -37,10 +35,10 @@ const RecoilIcon = styled.button<{
       fill: #bababa;
     }
   }
-`;
+`
 
 const DevToolsIcon: FC = () => {
-  const state = useZ(['devToolsOpen', 'setDevToolsOpen']);
+  const state = useZ(["devToolsOpen", "setDevToolsOpen"])
   return (
     <RecoilIcon
       type="button"
@@ -49,7 +47,7 @@ const DevToolsIcon: FC = () => {
     >
       <GiPolarBear size={30} />
     </RecoilIcon>
-  );
-};
+  )
+}
 
-export default DevToolsIcon;
+export default DevToolsIcon

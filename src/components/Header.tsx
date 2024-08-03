@@ -44,7 +44,7 @@ const Header = styled.div<{ headerTransparency: number; fontSize: number }>`
     }
   }
 `;
-const Icon = styled.div`
+export const Icon = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
