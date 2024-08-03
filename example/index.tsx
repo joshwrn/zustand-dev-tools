@@ -1,6 +1,6 @@
 import "react-app-polyfill/ie11"
 
-import { ZustandDevTools } from "../src"
+import { ZustandDevTools } from "../."
 import { create } from "zustand"
 import ReactDOM from "react-dom/client"
 import { faker } from "@faker-js/faker"

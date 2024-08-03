@@ -1,7 +1,6 @@
-"use client"
 import type { FC } from "react"
 
-import { Portal } from "react-portal"
+import { FloatingPortal } from "@floating-ui/react"
 
 import { Tools } from "./App"
 import DevToolsIcon from "./components/Icon"
@@ -14,11 +13,11 @@ export const ZustandDevTools: FC<{
 }> = ({ state, showDevTools, setShowDevTools }) => {
   const s = useZ(["devToolsOpen"])
   return (
-    <Portal>
+    <FloatingPortal>
       {showDevTools === undefined && <DevToolsIcon />}
       {(s.devToolsOpen || showDevTools) && (
         <Tools state={state} setShowDevTools={setShowDevTools} />
       )}
-    </Portal>
+    </FloatingPortal>
   )
 }
