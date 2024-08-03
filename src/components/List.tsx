@@ -4,9 +4,10 @@ import { useMemo, Fragment } from "react"
 import styled from "styled-components"
 
 import { numberToHex } from "../utils/color"
-import { StateItem } from "./Item"
-import { useFullStore } from "../state/store"
+import { FunctionItem, StateItem } from "./Item"
+import { TABS, useFullStore } from "../state/store"
 import { Text } from "../styles/Styles"
+import { Tabs } from "./Tabs"
 
 export type Node = {
   value: any
@@ -23,9 +24,6 @@ const List: FC<{
       ...state,
       devTools: store,
     })) {
-      if (typeof value === `function`) {
-        continue
-      }
       arr.push({ key, value })
     }
     return arr
@@ -39,15 +37,36 @@ const List: FC<{
       })
   }, [state, store, store.userInput]) as Node[]
 
+  const functionsArray = useMemo(() => {
+    return stateArray.filter((node) => typeof node.value === `function`)
+  }, [stateArray])
+
   return (
     <Container transparency={store.transparency} width={store.width}>
-      {stateArray.map((node) => {
-        return (
-          <Fragment key={`list-` + node.key}>
-            <StateItem node={node} input={store.userInput} name={node.key} />
-          </Fragment>
-        )
-      })}
+      <Tabs />
+      {store.tab === `state` &&
+        stateArray
+          .filter((node) => typeof node.value !== `function`)
+          .map((node) => {
+            return (
+              <Fragment key={`list-` + node.key}>
+                <StateItem node={node} input={store.userInput} name={node.key} />
+              </Fragment>
+            )
+          })}
+      {store.tab === `functions` &&
+        functionsArray.length > 0 &&
+        functionsArray.map((node) => {
+          return (
+            <Fragment key={`list-` + node.key}>
+              <FunctionItem
+                node={node}
+                input={store.userInput}
+                name={node.key}
+              />
+            </Fragment>
+          )
+        })}
       {stateArray.length === 0 && (
         <Text style={{ padding: `10px` }}>No matches found</Text>
       )}

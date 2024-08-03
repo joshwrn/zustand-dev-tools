@@ -1,6 +1,6 @@
 import "react-app-polyfill/ie11"
 
-import { ZustandDevTools } from "../."
+import { ZustandDevTools } from "../src"
 import { create } from "zustand"
 import ReactDOM from "react-dom/client"
 import { faker } from "@faker-js/faker"
@@ -8,8 +8,8 @@ import "./global.scss"
 
 type State = {
   count: number
-  inc: () => void
-  dec: () => void
+  inc: (num: number) => void
+  dec: (num: number) => void
 }
 const randomNumberInRange = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1) + min)
@@ -23,13 +23,14 @@ function createNestedObject(levels: number): any {
   const obj: any = {}
 
   for (let i = 0; i < fieldsPerLevel; i++) {
-    const fieldName = faker.animal.type()
+    const fieldName = faker.animal.dog()
     obj[fieldName] = {
       id: faker.string.uuid(),
-      name: `${fieldName} at level ${levels}`,
+      name: faker.person.firstName(),
       description: faker.lorem.sentence(),
       createdAt: faker.date.past(),
-      [faker.location.country()]: createNestedObject(levels - 1),
+      relation: createNestedObject(levels - 1),
+      level: levels,
     }
   }
 
@@ -47,8 +48,8 @@ const useTestStore = create<State>((set) => ({
     age: 30,
   },
   nestedObject: createNestedObject(5),
-  inc: () => set((state) => ({ count: state.count + 1 })),
-  dec: () => set((state) => ({ count: state.count - 1 })),
+  inc: (num) => set((state) => ({ count: state.count + num })),
+  dec: (num) => set((state) => ({ count: state.count - num })),
 }))
 
 const App = () => {

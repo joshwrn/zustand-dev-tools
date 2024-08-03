@@ -3,7 +3,11 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import { useShallow } from "zustand/react/shallow"
 
+export const TABS = [`state`, `functions`] as const
+export type Tab = (typeof TABS)[number]
+
 export type Store = {
+  tab: Tab
   theme: string
   width: number
   fonts: string
@@ -39,6 +43,7 @@ export const useFullStore = create<Store>()(
       setState: (setter: (draft: Store) => void) => {
         produceState(set, setter)
       },
+      tab: `state`,
       transparency: 0.1,
       width: 430,
       isQuickMenuOpen: false,

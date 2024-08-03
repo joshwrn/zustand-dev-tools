@@ -6,6 +6,36 @@ import Badge from "./Badge"
 import RecursiveTree from "./RecursiveTree"
 import { useZ } from "../state/store"
 import { Node } from "./List"
+import { Text } from "../styles/Styles"
+
+const FunctionItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 0px;
+`
+
+export const FunctionItem: FC<{
+  node: Node
+  input: string
+  name: string
+}> = ({ node, input, name }) => {
+  const state = useZ(["setOpenItems", "openItems"])
+
+  return (
+    <FunctionItemContainer>
+      <ItemHeader onClick={() => state.setOpenItems(node.key)}>
+        <InnerHeader>
+          <span title={node.value.toString()}>
+            <Badge item={node.value} isMap={false} isSet={false} />
+            <AtomName name={name} input={input} />
+          </span>
+        </InnerHeader>
+      </ItemHeader>
+      <Text>{node.value.toString()}</Text>
+    </FunctionItemContainer>
+  )
+}
 
 export const StateItem: FC<{
   node: Node
