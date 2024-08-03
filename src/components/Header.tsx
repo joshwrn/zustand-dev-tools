@@ -1,15 +1,15 @@
-import type { FC } from 'react';
-import React from 'react';
+import type { FC } from "react"
+import React from "react"
 
-import { BiDotsVerticalRounded as DotsIcon } from 'react-icons/bi';
-import { GrSettingsOption as SettingsIcon } from 'react-icons/gr';
-import { IoCloseSharp as CloseIcon } from 'react-icons/io5';
-import styled from 'styled-components';
+import { BiDotsVerticalRounded as DotsIcon } from "react-icons/bi"
+import { GrSettingsOption as SettingsIcon } from "react-icons/gr"
+import { IoCloseSharp as CloseIcon } from "react-icons/io5"
+import styled from "styled-components"
 
-import { useOutsideClick } from '../hooks/useOutsideClick';
-import { numberToHex } from '../utils/color';
-import { useZ } from '../state/store';
-import QuickMenu from './QuickMenu';
+import { useOutsideClick } from "../hooks/useOutsideClick"
+import { numberToHex } from "../utils/color"
+import { useZ } from "../state/store"
+import QuickMenu from "./QuickMenu"
 
 const Header = styled.div<{ headerTransparency: number; fontSize: number }>`
   box-sizing: border-box;
@@ -43,7 +43,7 @@ const Header = styled.div<{ headerTransparency: number; fontSize: number }>`
       color: ${({ theme }) => theme.faintText};
     }
   }
-`;
+`
 export const Icon = styled.button`
   display: flex;
   justify-content: center;
@@ -68,25 +68,25 @@ export const Icon = styled.button`
   path {
     stroke: ${({ theme }) => theme.faintText};
   }
-`;
+`
 
 const DevtoolsHeader: FC<{
-  setShowDevTools?: (show: boolean) => void;
+  setShowDevTools?: (show: boolean) => void
 }> = ({ setShowDevTools }) => {
   const state = useZ([
-    'isQuickMenuOpen',
-    'setState',
-    'fontSize',
-    'userInput',
-    'setUserInput',
-    'setDevToolsOpen',
-  ]);
+    "isQuickMenuOpen",
+    "setState",
+    "fontSize",
+    "userInput",
+    "setUserInput",
+    "setDevToolsOpen",
+  ])
 
   const ref = useOutsideClick(() =>
     state.setState((draft) => {
-      draft.isQuickMenuOpen = false;
+      draft.isQuickMenuOpen = false
     })
-  ) as React.RefObject<HTMLDivElement>;
+  ) as React.RefObject<HTMLDivElement>
 
   return (
     <Header headerTransparency={1} fontSize={state.fontSize} className="handle">
@@ -99,7 +99,7 @@ const DevtoolsHeader: FC<{
         <Icon
           onClick={() =>
             state.setState((draft) => {
-              draft.isQuickMenuOpen = !draft.isQuickMenuOpen;
+              draft.isQuickMenuOpen = !draft.isQuickMenuOpen
             })
           }
           title="Quick Options"
@@ -112,7 +112,7 @@ const DevtoolsHeader: FC<{
         title="Settings"
         onClick={() =>
           state.setState((draft) => {
-            draft.settingsOpen = !draft.settingsOpen;
+            draft.settingsOpen = !draft.settingsOpen
           })
         }
       >
@@ -125,7 +125,7 @@ const DevtoolsHeader: FC<{
         <CloseIcon style={{ transform: `translate(.5px, 0)` }} size={19} />
       </Icon>
     </Header>
-  );
-};
+  )
+}
 
-export default DevtoolsHeader;
+export default DevtoolsHeader
