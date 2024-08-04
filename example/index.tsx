@@ -50,6 +50,10 @@ const useTestStore = create<State>((set) => ({
   nestedObject: createNestedObject(5),
   inc: (num) => set((state) => ({ count: state.count + num })),
   dec: (num) => set((state) => ({ count: state.count - num })),
+  fakeFunction: () => {
+    const num = Math.floor(Math.random() * 100)
+    return num
+  },
 }))
 
 const App = () => {

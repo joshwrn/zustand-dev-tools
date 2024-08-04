@@ -55,6 +55,7 @@
     "@tsconfig/vite-react": "^3.0.2",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "@types/styled-components": "^5.1.26",
     "dts-cli": "^2.0.5",
     "husky": "^9.1.4",
@@ -70,6 +71,7 @@
     "immer": "^10.1.1",
     "react-draggable": "^4.4.6",
     "react-icons": "^4.4.0",
+    "react-syntax-highlighter": "^15.5.0",
     "styled-components": "^5.3.5",
     "zustand": "^4.4.7"
   }

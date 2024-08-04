@@ -6,13 +6,23 @@ import Badge from "./Badge"
 import RecursiveTree from "./RecursiveTree"
 import { useZ } from "../state/store"
 import { Node } from "./List"
-import { Text } from "../styles/Styles"
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
+import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"
 
 const FunctionItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 10px 0px;
+  padding: 10px 0px 5px 0px;
+  border-radius: 5px;
+  border-bottom: 1px solid ${({ theme }) => theme.faintOutline} !important;
+  color: ${({ theme }) => theme.primaryText};
+  width: 100%;
+  overflow-x: auto;
+  * {
+    background: none !important;
+  }
 `
 
 export const FunctionItem: FC<{
@@ -20,19 +30,45 @@ export const FunctionItem: FC<{
   input: string
   name: string
 }> = ({ node, input, name }) => {
-  const state = useZ(["setOpenItems", "openItems"])
+  const state = useZ(["setOpenItems", "openItems", "theme"])
 
   return (
     <FunctionItemContainer>
-      <ItemHeader onClick={() => state.setOpenItems(node.key)}>
-        <InnerHeader>
-          <span title={node.value.toString()}>
-            <Badge item={node.value} isMap={false} isSet={false} />
-            <AtomName name={name} input={input} />
-          </span>
-        </InnerHeader>
-      </ItemHeader>
-      <Text>{node.value.toString()}</Text>
+      {!state.openItems[node.key] && (
+        <ItemHeader
+          onClick={() => state.setOpenItems(node.key)}
+          style={{
+            position: "sticky",
+            left: 0,
+            paddingBottom: "5px",
+          }}
+        >
+          <InnerHeader>
+            <span title={node.value.toString()}>
+              <Badge item={node.value} isMap={false} isSet={false} />
+              <AtomName name={name} input={input} />
+            </span>
+          </InnerHeader>
+        </ItemHeader>
+      )}
+      {state.openItems[node.key] && (
+        <>
+          <SyntaxHighlighter
+            onClick={() => state.setOpenItems(node.key)}
+            language="javascript"
+            showInlineLineNumbers={true}
+            style={{
+              ...(state.theme === `dark` ? atomDark : oneLight),
+              'pre[class*="language-"]': {
+                background: "transparent !important",
+                cursor: "pointer",
+              },
+            }}
+          >
+            {"const " + name + " = " + node.value.toString()}
+          </SyntaxHighlighter>
+        </>
+      )}
     </FunctionItemContainer>
   )
 }

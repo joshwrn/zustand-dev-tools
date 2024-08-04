@@ -4,8 +4,8 @@ export const globalStyle = css`
   * {
     margin: 0;
     outline: none;
-    border: none;
     box-sizing: border-box;
+    border: none;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

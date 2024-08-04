@@ -50,6 +50,7 @@ export const Icon = styled.button`
   align-items: center;
   position: relative;
   flex-shrink: 0;
+  border: none;
   width: 30px;
   height: 30px;
   cursor: pointer;

@@ -26,7 +26,7 @@ export const Tools: FC<{
   ])
 
   return (
-    <ThemeProvider theme={devThemes[s.theme] ?? devThemes[`Light`]}>
+    <ThemeProvider theme={devThemes[s.theme] ?? devThemes[`light`]}>
       <DraggableContainer>
         <Backdrop transparency={s.transparency} />
         <Layer fonts={s.fonts} fontSize={s.fontSize}>

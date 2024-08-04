@@ -45,6 +45,7 @@ const Container = styled.div<{
       fill: ${({ theme }) => theme.faintText};
     }
     button {
+      border: none;
       svg {
         width: 19px !important;
         height: 19px !important;
@@ -58,6 +59,9 @@ const Option = styled.div`
   justify-content: space-between;
   border-bottom: 1px dashed ${({ theme }) => theme.faintOutline};
   height: 40px;
+  * {
+    border: none;
+  }
   label {
     font-weight: 700;
     color: ${({ theme }) => theme.faintText};

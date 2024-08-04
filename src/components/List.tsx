@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import { numberToHex } from "../utils/color"
 import { FunctionItem, StateItem } from "./Item"
-import { TABS, useFullStore } from "../state/store"
+import { useFullStore } from "../state/store"
 import { Text } from "../styles/Styles"
 import { Tabs } from "./Tabs"
 

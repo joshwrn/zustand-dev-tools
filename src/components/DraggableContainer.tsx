@@ -5,7 +5,8 @@ import styled from "styled-components"
 
 const Wrapper = styled.div`
   position: absolute;
-  border: 1px solid ${({ theme }) => theme.faintOutline};
+  border: 1px solid ${({ theme }) => theme.border};
+  outline: 1px solid ${({ theme }) => theme.faintOutline};
   border-radius: 6px;
   overflow: hidden;
 `
