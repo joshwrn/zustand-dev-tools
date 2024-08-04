@@ -1,4 +1,4 @@
-import type { FC } from "react"
+import { useEffect, useState, type FC } from "react"
 
 import styled from "styled-components"
 
@@ -9,6 +9,10 @@ import { Node } from "./List"
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter"
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism"
 import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism"
+
+import * as prettier from "prettier/standalone"
+import * as babel from "prettier/parser-babel"
+import * as prettierPluginEstree from "prettier/plugins/estree"
 
 const FunctionItemContainer = styled.div`
   display: flex;
@@ -24,6 +28,49 @@ const FunctionItemContainer = styled.div`
     background: none !important;
   }
 `
+
+const SyntaxCode: FC<{
+  node: Node
+  name: string
+}> = ({ node, name }) => {
+  const state = useZ(["setOpenItems", "theme"])
+  const [formatted, setFormatted] = useState("")
+
+  useEffect(() => {
+    const formatCode = async () => {
+      try {
+        const result = await prettier.format(`const ${name} = ${node.value}`, {
+          parser: "babel",
+          plugins: [babel, prettierPluginEstree],
+          semi: false,
+          singleQuote: true,
+        })
+        setFormatted(result)
+      } catch (error) {
+        console.error("Formatting error:", error)
+        setFormatted("Error formatting code")
+      }
+    }
+    formatCode()
+  }, [node.value])
+
+  return (
+    <SyntaxHighlighter
+      onClick={() => state.setOpenItems(node.key)}
+      language="javascript"
+      showInlineLineNumbers={true}
+      style={{
+        ...(state.theme === `dark` ? atomDark : oneLight),
+        'pre[class*="language-"]': {
+          background: "transparent !important",
+          cursor: "pointer",
+        },
+      }}
+    >
+      {formatted}
+    </SyntaxHighlighter>
+  )
+}
 
 export const FunctionItem: FC<{
   node: Node
@@ -51,24 +98,7 @@ export const FunctionItem: FC<{
           </InnerHeader>
         </ItemHeader>
       )}
-      {state.openItems[node.key] && (
-        <>
-          <SyntaxHighlighter
-            onClick={() => state.setOpenItems(node.key)}
-            language="javascript"
-            showInlineLineNumbers={true}
-            style={{
-              ...(state.theme === `dark` ? atomDark : oneLight),
-              'pre[class*="language-"]': {
-                background: "transparent !important",
-                cursor: "pointer",
-              },
-            }}
-          >
-            {"const " + name + " = " + node.value.toString()}
-          </SyntaxHighlighter>
-        </>
-      )}
+      {state.openItems[node.key] && <SyntaxCode node={node} name={name} />}
     </FunctionItemContainer>
   )
 }

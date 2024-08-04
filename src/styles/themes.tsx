@@ -10,6 +10,7 @@ interface Theme {
   text: string
   primaryText: string
   faintText: string
+  border: string
   headerBackground: string
   faintOutline: string
   background: string
@@ -30,6 +31,7 @@ export const devThemes: Record<string, Theme> = {
     faintText: `#586069`,
     headerBackground: `#f6f8fa`,
     faintOutline: `#e1e4e8`,
+    border: "#ffffff",
     background: `#ffffff`,
     iconBackground: `#e7e7e7`,
   },
@@ -46,6 +48,7 @@ export const devThemes: Record<string, Theme> = {
     faintText: `#a5a5a5`,
     headerBackground: `#161b22`,
     faintOutline: `#1a1d21`,
+    border: "#000000",
     background: `#0d1117`,
     iconBackground: `#30363d`,
   },
