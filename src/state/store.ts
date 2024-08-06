@@ -47,7 +47,7 @@ export const useFullStore = create<Store>()(
       transparency: 0.1,
       width: 430,
       isQuickMenuOpen: false,
-      theme: `Github Dark`,
+      theme: `dark`,
       fonts: "jetbrains mono",
       position: { x: 0, y: 0 },
       setPosition: (x: number, y: number) => {
@@ -98,10 +98,13 @@ export const useFullStore = create<Store>()(
 export const useZ = <T extends keyof Store>(selected: T[]) => {
   return useFullStore(
     useShallow((state: Store) => {
-      return selected.reduce((acc, key) => {
-        acc[key] = state[key]
-        return acc
-      }, {} as Pick<Store, T>)
+      return selected.reduce(
+        (acc, key) => {
+          acc[key] = state[key]
+          return acc
+        },
+        {} as Pick<Store, T>
+      )
     })
   )
 }
