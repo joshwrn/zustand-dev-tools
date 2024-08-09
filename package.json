@@ -1,6 +1,6 @@
 {
   "name": "zustand-state-inspector",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "license": "MIT",
   "author": "joshwrn",
   "main": "dist/index.js",
